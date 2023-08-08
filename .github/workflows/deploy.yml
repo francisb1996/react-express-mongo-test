@@ -56,7 +56,7 @@ jobs:
     - name: Deploy Server and DB cluster
       uses: aws-actions/amazon-ecs-deploy-task-definition@v1
       with:
-        task-defintion: arn:aws:ecs:us-east-1:755874648034:task-definition/test-app-task:1
+        task-definition: arn:aws:ecs:us-east-1:755874648034:task-definition/test-app-task:1
         service: test-service
         cluster: test-app
         region: us-east-1
