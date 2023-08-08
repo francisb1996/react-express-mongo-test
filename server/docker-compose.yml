@@ -5,7 +5,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: 755874648034.dkr.ecr.us-east-1.amazonaws.com/test-repo/express-server
+    image: 755874648034.dkr.ecr.us-east-1.amazonaws.com/test-repo
     container_name: express-server
     ports:
       - '3001:3001'
