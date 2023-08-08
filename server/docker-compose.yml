@@ -1,0 +1,21 @@
+version: '3.8.'
+
+services:
+  express-server:
+    build: .
+    container_name: express-server
+    depends_on:
+      - mongo-db
+    environment:
+      - MONGODB_URI=mongodb://mongo-db:27017/local
+
+  mongo-db:
+    image: mongo:latest
+    container_name: mongo-db
+    ports:
+      - '27017:27017'
+    volumes:
+      - mongo-data:/data/db
+
+volumes:
+  mongo-data:
