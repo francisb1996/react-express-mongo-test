@@ -1,9 +1,9 @@
-name: Main branch deploy
+name: Master branch deploy
 
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   deploy:
