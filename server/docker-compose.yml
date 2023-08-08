@@ -4,10 +4,12 @@ services:
   express-server:
     build: .
     container_name: express-server
+    ports:
+      - '3001:3001'
     depends_on:
       - mongo-db
     environment:
-      - MONGODB_URI=mongodb://mongo-db:27017/local
+      - MONGODB_URI=mongodb://mongo-db:27017
 
   mongo-db:
     image: mongo:latest

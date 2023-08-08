@@ -1,14 +1,13 @@
 import bodyParser from "body-parser";
 import express from "express";
-import { MongoClient } from "mongodb";
-import dotenv from 'dotenv'
-dotenv.config({ path: `.env.${process.env.NODE_ENV}` });
+import { MongoClient, ObjectId } from "mongodb";
 
 const app = express();
 const port = 3001
 
-console.log(process.env.MONGODB_URI)
-const client = new MongoClient('mongodb://0.0.0.0:27017');
+const url = process.env.NODE_ENV ? 'mongodb://0.0.0.0:27017' : 'mongodb://mongo-db:27017'
+console.log(url)
+const client = new MongoClient(url);
 
 client.connect();
 const db = client.db("local")
@@ -24,10 +23,16 @@ const getUsers = async (request, response) => {
 
 const createUsers = async (request, response) => {
     await collection.insertOne(request.body)
-    response.json(request.body)
+    response.status(201).json(request.body)
 }
 
-app.get('/api/users', getUsers)
-app.post('/api/users', createUsers)
+const deleteUser = async (request, response) => {
+    await collection.deleteOne({ _id: new ObjectId(request.params.id) })
+    response.sendStatus(204)
+}
+
+app.get('/users', getUsers)
+app.post('/users', createUsers)
+app.delete('/users/:id', deleteUser)
 
 app.listen(port, () => console.log(`Listening on ${port}`))

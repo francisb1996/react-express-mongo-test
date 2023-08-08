@@ -1,57 +1,56 @@
 {
+    "family": "test-app-task",
+    "executionRoleArn": "arn:aws:iam::755874648034:role/ecsTaskExecutionRole",
+    "networkMode": "bridge",
     "containerDefinitions": [
         {
-            "name": "server",
+            "name": "express-server",
             "image": "test-repo/express-server",
-            "cpu": 0,
+            "memory": 512,
+            "cpu": 256,
+            "essential": true,
             "portMappings": [
                 {
                     "containerPort": 3001,
-                    "hostPort": 3001,
-                    "protocol": "tcp"
+                    "hostPort": 3001
                 }
             ],
-            "essential": true,
-            "environment": [],
-            "mountPoints": [],
-            "volumesFrom": [],
-            "ulimits": [],
-            "logConfiguration": {
-                "logDriver": "awslogs",
-                "options": {
-                    "awslogs-create-group": "true",
-                    "awslogs-group": "/ecs/",
-                    "awslogs-region": "us-east-1",
-                    "awslogs-stream-prefix": "ecs"
-                },
-                "secretOptions": []
-            }
+            "environment": [
+                {
+                    "name": "MONGODB_URI",
+                    "value": "mongodb://mongo-db:27017"
+                }
+            ],
+            "links": [
+                "mongo-db"
+            ]
         },
         {
-            "name": "mongo",
-            "image": "test-repo/mongo-db",
-            "cpu": 0,
+            "name": "mongo-db",
+            "image": "mongo:latest",
+            "memory": 512,
+            "cpu": 256,
+            "essential": true,
             "portMappings": [
                 {
                     "containerPort": 27017,
-                    "hostPort": 27017,
-                    "protocol": "tcp"
+                    "hostPort": 27017
                 }
             ],
-            "essential": false,
-            "environment": [],
-            "mountPoints": [],
-            "volumesFrom": []
+            "mountPoints": [
+                {
+                    "sourceVolume": "mongo-data",
+                    "containerPath": "/data/db"
+                }
+            ]
         }
     ],
-    "family": "test-app-task",
-    "executionRoleArn": "arn:aws:iam::755874648034:role/ecsTaskExecutionRole",
-    "networkMode": "awsvpc",
-    "volumes": [],
-    "placementConstraints": [],
-    "requiresCompatibilities": [
-        "FARGATE"
-    ],
-    "cpu": "1024",
-    "memory": "3072"
+    "volumes": [
+        {
+            "name": "mongo-data",
+            "host": {
+                "sourcePath": "<YOUR_HOST_PATH_HERE>"
+            }
+        }
+    ]
 }
