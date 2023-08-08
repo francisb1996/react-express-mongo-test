@@ -1,7 +1,9 @@
 {
     "family": "test-app-task",
-    "executionRoleArn": "arn:aws:iam::755874648034:role/ecsTaskExecutionRole",
-    "networkMode": "bridge",
+    "requiresCompatibilities": ["FARGATE"],
+    "networkMode": "awsvpc",
+    "cpu": "256",
+    "memory": "0.5GB",
     "containerDefinitions": [
         {
             "name": "express-server",
@@ -11,8 +13,7 @@
             "essential": true,
             "portMappings": [
                 {
-                    "containerPort": 3001,
-                    "hostPort": 3001
+                    "containerPort": 3001
                 }
             ],
             "environment": [
@@ -20,9 +21,6 @@
                     "name": "MONGODB_URI",
                     "value": "mongodb://mongo-db:27017"
                 }
-            ],
-            "links": [
-                "mongo-db"
             ]
         },
         {
@@ -33,8 +31,7 @@
             "essential": true,
             "portMappings": [
                 {
-                    "containerPort": 27017,
-                    "hostPort": 27017
+                    "containerPort": 27017
                 }
             ],
             "mountPoints": [
@@ -47,10 +44,11 @@
     ],
     "volumes": [
         {
-            "name": "mongo-data",
-            "host": {
-                "sourcePath": "<YOUR_HOST_PATH_HERE>"
-            }
+          "name": "mongo-data",
+          "efsVolumeConfiguration": {
+            "fileSystemId": "fs-0d916a999f1d3cd60",
+            "transitEncryption": "ENABLED"
+          }
         }
-    ]
+      ]
 }
