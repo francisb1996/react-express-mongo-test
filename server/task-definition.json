@@ -2,6 +2,8 @@
     "family": "test-app-task",
     "requiresCompatibilities": ["FARGATE"],
     "networkMode": "awsvpc",
+    "cpu": "1024",
+    "memory": "512",
     "containerDefinitions": [
         {
             "name": "express-server",
