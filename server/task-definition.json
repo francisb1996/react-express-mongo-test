@@ -2,14 +2,14 @@
     "family": "test-app-task",
     "requiresCompatibilities": ["FARGATE"],
     "networkMode": "awsvpc",
-    "cpu": "1024",
-    "memory": "512",
+    "cpu": "512",
+    "memory": "1024",
     "containerDefinitions": [
         {
             "name": "express-server",
             "image": "test-repo/express-server",
-            "memory": 512,
             "cpu": 256,
+            "memory": 512,
             "essential": true,
             "portMappings": [
                 {
@@ -26,8 +26,8 @@
         {
             "name": "mongo-db",
             "image": "mongo:latest",
-            "memory": 512,
             "cpu": 256,
+            "memory": 512,
             "essential": true,
             "portMappings": [
                 {
