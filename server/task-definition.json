@@ -1,6 +1,7 @@
 {
     "family": "test-app-task",
     "requiresCompatibilities": ["FARGATE"],
+    "executionRoleArn": "arn:aws:iam::755874648034:role/ecsTaskExecutionRole",
     "networkMode": "awsvpc",
     "cpu": "512",
     "memory": "1024",
